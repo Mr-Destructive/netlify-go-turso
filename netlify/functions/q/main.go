@@ -36,7 +36,7 @@ func handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse,
 		var question Question
 		err := db.QueryRow("SELECT id, question, answer, options FROM questions ORDER BY RANDOM() LIMIT 1").Scan(&question.ID, &question.Question, &question.Answer, &question.Options)
 		if err != nil {
-			return events.APIGatewayProxyResponse{StatusCode: 500, Body: "Failed to fetch question"}, nil
+            return events.APIGatewayProxyResponse{StatusCode: 500, Body: "Failed to fetch question: " + err.Error()}, nil
 		}
 
 		questionJSON, _ := json.Marshal(question)
